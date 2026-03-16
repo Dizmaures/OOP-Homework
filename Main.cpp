@@ -19,7 +19,17 @@ private:
 
 Sword::Sword(int weight, int quality)
 {
-    this->weight = weight;
+    if (weight < 2)
+         weight = 2;
+    else if (weight > 5)
+        weight = 5;
+    
+   this->weight = weight;
+
+   if (quality < 1)
+        quality = 1;
+    else if (quality > 6)
+        quality = 6;
     this->quality = quality;
 }
 
@@ -37,3 +47,22 @@ void Sword::WearAndTear()
         quality--;
     }
 }
+
+void Sword::Sharpen()
+{
+    if (quality < 5)
+    {
+        quality = quality + 2;
+    }
+}
+
+int Sword::GetWeight()
+{
+    return weight;
+}
+
+int Sword::GetQuality()
+{
+    return quality;
+}
+
