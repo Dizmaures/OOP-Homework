@@ -19,6 +19,6 @@ private:
 
 Sword::Sword(int weight, int quality)
 {
-    weight = 5;
-    quality = 6;
+    this->weight = weight;
+    this->quality = quality;
 }
