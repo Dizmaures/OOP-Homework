@@ -32,5 +32,8 @@ int Sword::Damage()
 
 void Sword::WearAndTear()
 {
-
+    if (quality > 1)
+    {
+        quality--;
+    }
 }
