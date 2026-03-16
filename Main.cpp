@@ -22,3 +22,15 @@ Sword::Sword(int weight, int quality)
     this->weight = weight;
     this->quality = quality;
 }
+
+int Sword::Damage()
+{
+    int damage = weight * quality;
+    WearAndTear();
+    return damage;
+}
+
+void Sword::WearAndTear()
+{
+
+}
