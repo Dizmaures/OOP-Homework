@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cstring>
+#include <cmath>
 
 using namespace std;
 
@@ -120,4 +122,25 @@ int Shield::GetSize()
 
 int Shield::GetProtection()
     return protection;
+}
+
+class Character
+{
+public:
+    Character(string name, int life, int strength, int sw, int sh);
+    bool Hit (int);
+    int Attack();
+    int Defence();
+    int GetLife();
+    void Go(char);
+    void Print();
+    ~Character();
+
+private:
+    string name;
+    int life;
+    int strength;
+    char path[10];
+    Sword sw;
+    Shield sh;
 }
