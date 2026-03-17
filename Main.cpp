@@ -66,3 +66,58 @@ int Sword::GetQuality()
     return quality;
 }
 
+
+class Shield
+{
+public:
+    Shield(int size, int protection);
+    int Block();
+    void Destruction();
+    void Repair();
+    int GetSize();
+    int GetProtection();
+
+private:
+    int size; // 0-4
+    int protection; // 1-4
+};
+
+Shield::Shield(int size, int protection) //size un protection parametri
+{
+    if (size < 0)
+        size = 0;
+    else if (size > 4)
+        size = 4;
+
+    this->size = size;
+
+    if (protection < 1)
+        protection = 1;
+    else if (protection > 4)
+        protection = 4;
+
+    this->protection = protection;
+
+int Shield::Block()
+    int block = size * protection;
+    Destruction();
+    return block;
+
+void Shield::Destruction()
+    if (size > 0)
+    {
+        size --;
+    }
+
+void Shield::Repair()
+    if (size < 3)
+    {
+        size = size + 2;
+    }
+
+int Shield::GetSize()
+    return size;
+
+int Shield::GetProtection()
+    return protection;
+}
