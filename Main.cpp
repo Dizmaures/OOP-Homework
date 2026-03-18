@@ -171,5 +171,19 @@ Character::Character(string n, int l, int str, int sw_w, int sw_q, int sh_s, int
 
 bool Character::Hit(int damage)
 {
+    life = life - damage;
+    if (life < 0)
+    {
+        life = 0;
+    }
+    if (life > 0)
+        return true;
+    else if (life == 0)
+        return false;
+    
+}
+
+int Character::Attack()
+{
 
 }
