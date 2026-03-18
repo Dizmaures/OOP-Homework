@@ -135,12 +135,12 @@ return protection;
 class Character
 {
 public:
-    Character(string name, int life, int strength, int sw, int sh);
-    bool Hit (int);
+    Character::Character(string n, int l, int str, int sw_w, int sw_q, int sh_s, int sh_p);
+    bool Hit (int damage);
     int Attack();
     int Defence();
     int GetLife();
-    void Go(char);
+    void Go(char direction);
     void Print();
     ~Character();
 
@@ -148,20 +148,28 @@ private:
     string name;
     int life;
     int strength;
-    char path[10];
-    Sword sw;
-    Shield sh;
+    char path[11]; //10 soli + 1 vieta beigu ziimei
+    int stepCount; // solus skaits lai zinatu kuraa vieta masiivaa rakstiit
+    Sword sw; // zobena objeks
+    Shield sh; // vairoga objekts
 };
 
-Character::Character(string name, int life, int strength, int sw, int sh)
+Character::Character(string n, int l, int str, int sw_w, int sw_q, int sh_s, int sh_p)
+    : sw(sw_w, sw_q), sh(sh_s, sh_p)
 {
-    if (life < 0)
+    name = n;
+    life = (l < 0) ? 0 : l; // Dziviba nevar but negativa
+    strength = str;
+    stepCount = 0; // Sakuma veikti 0 solji
+
+    for (int i = 0; i < 10; i++)
     {
-        life = 0;
+        path[i] = '-';
     }
+    path[10] = '\0'; // Masiva beigu pazime
 }
 
-bool Character::Hit(int)
+bool Character::Hit(int damage)
 {
 
 }
