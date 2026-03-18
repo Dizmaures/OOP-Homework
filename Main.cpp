@@ -3,6 +3,7 @@
 
 using namespace std;
 
+// Klase - Sword
 class Sword
 {
 public:
@@ -68,7 +69,7 @@ int Sword::GetQuality()
     return quality;
 }
 
-
+// Klase - Shield
 class Shield
 {
 public:
@@ -132,6 +133,7 @@ int Shield::GetProtection()
 return protection;
 }
 
+//Klase - Character
 class Character
 {
 public:
@@ -178,7 +180,7 @@ bool Character::Hit(int damage)
     }
     if (life > 0)
         return true;
-    else if (life == 0)
+    else
         return false;
 }
 
@@ -186,7 +188,7 @@ int Character::Attack()
 {
     if (life > 0)
         return strength + sw.Damage();
-    else if (life == 0)
+    else
         return 0;
 }
 
@@ -194,7 +196,7 @@ int Character::Defence()
 {
     if (life > 0)
         return (strength / 2) + sh.Block();
-    else if (life == 0)
+    else
         return 0;
 }
 
@@ -225,11 +227,59 @@ void Character::Print()
     }
 cout << "Marsruts: " << path << endl;
 cout << "Zobena kvalitate: " << sw.GetQuality() << endl;
-cout << "Vairoga izmers: " << sh.GetSize() << end;
+cout << "Vairoga izmers: " << sh.GetSize() << endl;
 cout << "-----------------------" << endl;
 }
 
 Character::~Character()
 {
 cout << "Game over for " << name << endl;
+}
+
+
+// Funkcija - Fight:
+bool Fight(Character &ch1, Character &ch2)
+{
+    if (ch1.GetLife() > 0 && ch2.GetLife() > 0)
+    {
+        int damage = ch1.Attack() - ch2.Defence();
+
+        if (damage < 0)
+        damage = 0;
+
+        ch2.Hit(damage);
+        return true; // Kauja notika
+    }
+    return false; // Kads jau bija miris
+}
+
+int main() {
+    // Izveidojam 2 speletajus
+    Character p1("Maikls", 100, 20, 4, 5, 3, 4);
+    Character p2("Lebrons", 50, 15, 3, 4, 2, 3);
+
+    // Vienam ievada < 10 virzienus otram > 10
+    p1.Go('w'); p1.Go('d'); // 2 soļi
+    
+    for(int i = 0; i < 15; i++) {
+        p2.Go('s'); // Meginaas 15, bet klase atļaus tikai 10
+    }
+
+    // Kauja liidz p2 nomirst
+    cout << "--- KAUJA SAKAS ---" << endl;
+    while(p2.GetLife() > 0) {
+        Fight(p1, p2);
+        cout << "P2 dziviba: " << p2.GetLife() << endl;
+    }
+
+    // Megina velreiz iesist un likt iet mirusajam
+    p2.Hit(10);
+    p2.Go('w');
+
+    // Beigaas izvada abus
+    cout << endl << "--- REZULTATI ---" << endl;
+    p1.Print();
+    p2.Print();
+
+    return 0;
 }
