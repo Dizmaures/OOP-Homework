@@ -1,6 +1,5 @@
 #include <iostream>
-#include <cstring>
-#include <cmath>
+#include <string>
 
 using namespace std;
 
@@ -52,9 +51,10 @@ void Sword::WearAndTear()
 
 void Sword::Sharpen()
 {
-    if (quality < 5)
+    quality = quality + 2;
+     if (quality > 6) 
     {
-        quality = quality + 2;
+         quality = 6;
     }
 }
 
@@ -143,4 +143,17 @@ private:
     char path[10];
     Sword sw;
     Shield sh;
+};
+
+Character::Character(string name, int life, int strength, int sw, int sh)
+{
+    if (life < 0)
+    {
+        life = 0;
+    }
+}
+
+bool Character::Hit(int)
+{
+
 }
