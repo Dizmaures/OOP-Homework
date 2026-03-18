@@ -180,10 +180,33 @@ bool Character::Hit(int damage)
         return true;
     else if (life == 0)
         return false;
-    
 }
 
 int Character::Attack()
 {
+    if (life > 0)
+        return strength + sw.Damage();
+    else if (life == 0)
+        return 0;
+}
 
+int Character::Defence()
+{
+    if (life > 0)
+        return (strength / 2) + sh.Block();
+    else if (life == 0)
+        return 0;
+}
+
+int Character::GetLife()
+{
+    return life;
+}
+
+void Character::Go(char direction)
+{
+    if (life > 0 && stepCount < 10)
+    {
+        
+    }
 }
