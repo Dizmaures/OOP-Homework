@@ -99,29 +99,37 @@ Shield::Shield(int size, int protection) //size un protection parametri
         protection = 4;
 
     this->protection = protection;
-
+}
 int Shield::Block()
-    int block = size * protection;
+{
+        int block = size * protection;
     Destruction();
     return block;
+}
 
 void Shield::Destruction()
-    if (size > 0)
+{
+        if (size > 0)
     {
         size --;
     }
+}
 
 void Shield::Repair()
-    if (size < 3)
+{
+if (size < 3)
     {
         size = size + 2;
     }
+}
 
 int Shield::GetSize()
-    return size;
-
+{
+return size;
+}
 int Shield::GetProtection()
-    return protection;
+{
+return protection;
 }
 
 class Character
