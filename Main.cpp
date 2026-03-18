@@ -117,7 +117,7 @@ void Shield::Destruction()
 
 void Shield::Repair()
 {
-if (size < 3)
+if (size < 4)
     {
         size = size + 2;
     }
