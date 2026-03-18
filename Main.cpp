@@ -207,6 +207,29 @@ void Character::Go(char direction)
 {
     if (life > 0 && stepCount < 10)
     {
-        
+        path[stepCount] = direction;
+        stepCount++;
     }
+}
+
+void Character::Print()
+{
+    cout << "Varonis :" << name << endl;
+    if (life > 0)
+    {
+        cout << "Statuss: Dzivs (" << life << "HP)" << endl;
+    }
+    else
+    {
+        cout << "Statuss: Miris" << endl;
+    }
+cout << "Marsruts: " << path << endl;
+cout << "Zobena kvalitate: " << sw.GetQuality() << endl;
+cout << "Vairoga izmers: " << sh.GetSize() << end;
+cout << "-----------------------" << endl;
+}
+
+Character::~Character()
+{
+cout << "Game over for " << name << endl;
 }
