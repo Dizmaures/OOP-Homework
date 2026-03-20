@@ -137,7 +137,7 @@ return protection;
 class Character
 {
 public:
-    Character::Character(string n, int l, int str, int sw_w, int sw_q, int sh_s, int sh_p);
+    Character(string n, int l, int str, int sw_w, int sw_q, int sh_s, int sh_p);
     bool Hit (int damage);
     int Attack();
     int Defence();
