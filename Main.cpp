@@ -3,7 +3,7 @@
 
 using namespace std;
 
-// Klase - Sword
+// Klase - Sword // Sword.h
 class Sword
 {
 public:
@@ -69,7 +69,7 @@ int Sword::GetQuality()
     return quality;
 }
 
-// Klase - Shield
+// Klase - Shield // Shield.h
 class Shield
 {
 public:
@@ -133,7 +133,7 @@ int Shield::GetProtection()
 return protection;
 }
 
-//Klase - Character
+//Klase - Character // Character.h
 class Character
 {
 public:
