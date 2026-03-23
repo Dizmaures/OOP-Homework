@@ -253,6 +253,7 @@ bool Fight(Character &ch1, Character &ch2)
     return false; // Kads jau bija miris
 }
 
+//Main.cpp
 int main() {
     // Izveidojam 2 speletajus
     Character p1("Maikls", 100, 20, 4, 5, 3, 4);
