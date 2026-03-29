@@ -143,8 +143,8 @@ public:
     int Defence();
     int GetLife();
     void Go(char direction);
-    void Print();
-    ~Character();
+    virtual void Print();
+    virtual ~Character();
 
 private:
     string name;
