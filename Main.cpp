@@ -146,7 +146,7 @@ public:
     virtual void Print();
     virtual ~Character();
 
-private:
+protected:
     string name;
     int life;
     int strength;
@@ -154,6 +154,18 @@ private:
     int stepCount; // solus skaits lai zinatu kuraa vieta masiivaa rakstiit
     Sword sw; // zobena objeks
     Shield sh; // vairoga objekts
+};
+
+class Hero : public Character
+{
+private:
+    int experience;
+
+public:
+    // konstruktora deklaracija
+    Hero(string n, int l, int str, int sw_w, int sw_q, int sh_s, int sh_p, int exp);
+    void Kill(Monster &m);
+    void Print() override; // jaunais Print
 };
 
 Character::Character(string n, int l, int str, int sw_w, int sw_q, int sh_s, int sh_p)
