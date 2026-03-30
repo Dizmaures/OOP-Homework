@@ -3,7 +3,7 @@
 
 using namespace std;
 
-// Klase - Sword // Sword.h
+// Klase - Sword
 class Sword
 {
 public:
@@ -69,7 +69,7 @@ int Sword::GetQuality()
     return quality;
 }
 
-// Klase - Shield // Shield.h
+// Klase - Shield
 class Shield
 {
 public:
@@ -133,7 +133,7 @@ int Shield::GetProtection()
 return protection;
 }
 
-//Klase - Character // Character.h
+//Klase - Character
 class Character
 {
 public:
@@ -156,6 +156,27 @@ protected:
     Shield sh; // vairoga objekts
 };
 
+class Monster : public Character
+{
+private:
+    int level;
+public:
+    Monster(string n, int l, int str, int sw_w, int sw_q, int sh_s, int sh_p, int lvl)
+     : Character(n, l, str, sw_w, sw_q, sh_s, sh_p)
+     {
+        level = lvl;
+     }
+    int GetLevel() { return level; }
+
+    void Print() override 
+    {
+        cout << "Monstrs: " << name << "[Lvl " << level << "]" << endl;
+        if (life > 0) cout << "HP:" << life << endl;
+        else cout << "Statuss: Beigts" << endl;
+        cout << "-----------------------" << endl;
+    }
+};
+
 class Hero : public Character
 {
 private:
@@ -166,6 +187,22 @@ public:
     Hero(string n, int l, int str, int sw_w, int sw_q, int sh_s, int sh_p, int exp);
     void Kill(Monster &m);
     void Print() override; // jaunais Print
+};
+
+class Boss : public Monster
+{
+private:
+    int heads;
+
+public:
+    Boss(string n, int l, int str, int sw_w, int sw_q, int sh_s, int sh_p, int lvl, int h)
+    : Monster(n, l, str, sw_w, sw_q, sh_s, sh_p, lvl)
+    {
+        heads = h;
+    }
+
+    void Eat(Hero &h);
+    void Print() override;
 };
 
 Character::Character(string n, int l, int str, int sw_w, int sw_q, int sh_s, int sh_p)
@@ -265,7 +302,41 @@ bool Fight(Character &ch1, Character &ch2)
     return false; // Kads jau bija miris
 }
 
-//Main.cpp
+// Hero metodes
+Hero::Hero(string n, int l, int str, int sw_w, int sw_q, int sh_s, int sh_p, int exp)
+    : Character(n, l, str, sw_w, sw_q, sh_s, sh_p)
+    {
+    experience = exp;
+    }
+
+void Hero::Kill(Monster &m)
+{   //Aprekina pieredzi un nonaave monstru
+    experience += m.GetLife() * m.GetLevel();
+    m.Hit(m.GetLife()); 
+}
+
+void Hero::Print()
+{
+    Character::Print(); // Izsauc baazes klases Print
+    cout << "Pieredze: " << experience << endl;
+    cout << "-----------------------" << endl;
+}
+
+// Boss metodes
+void Boss::Eat(Hero &h)
+{
+    life += h.GetLife(); // Atjauno savu HP
+    heads++;             // Izaug jauna galva
+    h.Hit(h.GetLife()); // Varonis mirst
+}
+
+void Boss::Print()
+{
+    Monster::Print();
+    cout << "Galvu skaits: " << heads << endl;
+    cout << "-----------------------" << endl;
+}
+
 int main() {
     // Izveidojam 2 speletajus
     Character p1("Maikls", 100, 20, 4, 5, 3, 4);
