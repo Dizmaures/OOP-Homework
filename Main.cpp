@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <ctime>   // Laika funkcijai
+#include <cstdlib> // rand() funkcijai
 
 using namespace std;
 
