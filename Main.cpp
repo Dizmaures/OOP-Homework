@@ -202,7 +202,7 @@ public:
     {
         heads = h;
     }
-
+    int GetHeads() { return heads; }
     void Eat(Hero &h);
     void Print() override;
 };
@@ -340,32 +340,60 @@ void Boss::Print()
 }
 
 int main() {
-    // Izveidojam 2 speletajus
-    Character p1("Maikls", 100, 20, 4, 5, 3, 4);
-    Character p2("Lebrons", 50, 15, 3, 4, 2, 3);
+    srand(time(0));
 
-    // Vienam ievada < 10 virzienus otram > 10
-    p1.Go('w'); p1.Go('d'); // 2 soļi
+    // I. DAĻA: Atsevišķu objektu pārbaude
+    cout << "--- I DAĻA: TESTĒŠANA ---" << endl;
+    Hero h1("Arturs", 100, 20, 4, 5, 3, 4, 0);
+    Monster m1("Meža Vilks", 40, 10, 2, 2, 1, 1, 3);
+    Boss b1("Pūķis", 250, 40, 5, 5, 4, 4, 10, 3);
+
+    h1.Print();
+    m1.Print();
+    b1.Print();
+
+    cout << "Notiek cīņa..." << endl;
+    h1.Kill(m1); // Varonis nogalina monstru
+    b1.Eat(h1);  // Boss apēd varoni
+
+    h1.Print();
+    m1.Print();
+    b1.Print();
+
+    // II. DAĻA: Masīvs ar 9 objektiem
+    cout << "\n--- II DAĻA: MASĪVS UN CIKLI ---" << endl;
+    Character* pasaule[9];
     
-    for(int i = 0; i < 15; i++) {
-        p2.Go('s'); // Meginaas 15, bet klase atļaus tikai 10
+    // Izveidojam pa 3 no katra veida
+    pasaule[0] = new Hero("H1", 100, 20, 4, 5, 3, 4, 0);
+    pasaule[1] = new Hero("H2", 100, 20, 4, 5, 3, 4, 0);
+    pasaule[2] = new Hero("H3", 100, 20, 4, 5, 3, 4, 0);
+    pasaule[3] = new Monster("M1", 50, 10, 2, 2, 1, 1, 1);
+    pasaule[4] = new Monster("M2", 50, 10, 2, 2, 1, 1, 2);
+    pasaule[5] = new Monster("M3", 50, 10, 2, 2, 1, 1, 3);
+    pasaule[6] = new Boss("B1", 150, 30, 4, 4, 3, 3, 5, 1);
+    pasaule[7] = new Boss("B2", 150, 30, 4, 4, 3, 3, 5, 2);
+    pasaule[8] = new Boss("B3", 150, 30, 4, 4, 3, 3, 5, 3);
+
+    // 1. Izvadīt datus pirms gājieniem
+    for(int i = 0; i < 9; i++) pasaule[i]->Print();
+
+    // 2. Cikls ar 5 iterācijām (Gājieni un nejauši bojājumi)
+    char virzieni[] = {'w', 's', 'a', 'd'};
+    cout << "\n--- NOTIEK 5 GĀJIENI ---" << endl;
+    for(int j = 0; j < 5; j++) {
+        for(int i = 0; i < 9; i++) {
+            pasaule[i]->Go(virzieni[rand() % 4]); // Nejaušs virziens
+            pasaule[i]->Hit(rand() % 6 + 5);      // Nejaušs bojājums no 5 līdz 10
+        }
     }
 
-    // Kauja liidz p2 nomirst
-    cout << "--- KAUJA SAKAS ---" << endl;
-    while(p2.GetLife() > 0) {
-        Fight(p1, p2);
-        cout << "P2 dziviba: " << p2.GetLife() << endl;
-    }
+    // 3. Izvadīt datus pēc gājieniem
+    cout << "\n--- STĀVOKLIS PĒC GĀJIENIEM ---" << endl;
+    for(int i = 0; i < 9; i++) pasaule[i]->Print();
 
-    // Megina velreiz iesist un likt iet mirusajam
-    p2.Hit(10);
-    p2.Go('w');
-
-    // Beigaas izvada abus
-    cout << endl << "--- REZULTATI ---" << endl;
-    p1.Print();
-    p2.Print();
+    // Atbrīvojam atmiņu
+    for(int i = 0; i < 9; i++) delete pasaule[i];
 
     return 0;
 }
