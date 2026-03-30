@@ -202,7 +202,7 @@ public:
     {
         heads = h;
     }
-
+    int GetHeads() { return heads; }
     void Eat(Hero &h);
     void Print() override;
 };
@@ -340,49 +340,60 @@ void Boss::Print()
 }
 
 int main() {
-    srand(time(0)); // Inicializē nejaušos skaitļus
+    srand(time(0));
 
-    // 1. Izveidojam masīvu ar 9 norādēm uz Character (Polimorfisms)
+    // I. DAĻA: Atsevišķu objektu pārbaude
+    cout << "--- I DAĻA: TESTĒŠANA ---" << endl;
+    Hero h1("Arturs", 100, 20, 4, 5, 3, 4, 0);
+    Monster m1("Meža Vilks", 40, 10, 2, 2, 1, 1, 3);
+    Boss b1("Pūķis", 250, 40, 5, 5, 4, 4, 10, 3);
+
+    h1.Print();
+    m1.Print();
+    b1.Print();
+
+    cout << "Notiek cīņa..." << endl;
+    h1.Kill(m1); // Varonis nogalina monstru
+    b1.Eat(h1);  // Boss apēd varoni
+
+    h1.Print();
+    m1.Print();
+    b1.Print();
+
+    // II. DAĻA: Masīvs ar 9 objektiem
+    cout << "\n--- II DAĻA: MASĪVS UN CIKLI ---" << endl;
     Character* pasaule[9];
-
-    // 2. Piepildām masīvu ar dažādiem objektiem
-    pasaule[0] = new Hero("Arturs", 100, 20, 4, 5, 3, 4, 0);
-    pasaule[1] = new Monster("Meza Vilks", 40, 10, 2, 2, 1, 1, 3);
-    pasaule[2] = new Boss("Trisgalvju Pukis", 250, 40, 5, 5, 4, 4, 10, 3);
-    pasaule[3] = new Hero("Galahads", 90, 18, 3, 4, 4, 4, 50);
-    pasaule[4] = new Monster("Skelets", 30, 5, 2, 1, 0, 1, 1);
-    pasaule[5] = new Monster("Orks", 60, 15, 3, 3, 2, 2, 5);
-    pasaule[6] = new Boss("Ciltstevs", 150, 30, 4, 4, 3, 3, 8, 2);
-    pasaule[7] = new Monster("Spoks", 20, 20, 1, 6, 0, 0, 4);
-    pasaule[8] = new Hero("Lanselots", 110, 25, 5, 5, 2, 3, 100);
-
-    // 3. Visiem liek iet 1 nejaušu soli
-    char virzieni[] = {'w', 's', 'a', 'd'};
-    for(int i = 0; i < 9; i++) {
-        pasaule[i]->Go(virzieni[rand() % 4]);
-    }
-
-    // 4. Izsaucam Print() visiem tēliem
-    cout << "--- PASAULES IEDZIVOTAJI ---" << endl;
-    for(int i = 0; i < 9; i++) {
-        pasaule[i]->Print(); // Šeit nostrādā polimorfisms!
-    }
-
-    // 5. Demonstrējam specifiskās metodes (vajag "cast", lai piekļūtu Hero/Monster metodēm no Character*)
-    cout << "--- NOTIKUMS ---" << endl;
-    Hero* h = dynamic_cast<Hero*>(pasaule[0]);
-    Monster* m = dynamic_cast<Monster*>(pasaule[1]);
     
-    if(h && m) {
-        cout << h->GetLife() << " HP Varonis nogalina monstru!" << endl;
-        h->Kill(*m);
-        pasaule[1]->Print(); // Rādīs, ka monstrs ir miris
+    // Izveidojam pa 3 no katra veida
+    pasaule[0] = new Hero("H1", 100, 20, 4, 5, 3, 4, 0);
+    pasaule[1] = new Hero("H2", 100, 20, 4, 5, 3, 4, 0);
+    pasaule[2] = new Hero("H3", 100, 20, 4, 5, 3, 4, 0);
+    pasaule[3] = new Monster("M1", 50, 10, 2, 2, 1, 1, 1);
+    pasaule[4] = new Monster("M2", 50, 10, 2, 2, 1, 1, 2);
+    pasaule[5] = new Monster("M3", 50, 10, 2, 2, 1, 1, 3);
+    pasaule[6] = new Boss("B1", 150, 30, 4, 4, 3, 3, 5, 1);
+    pasaule[7] = new Boss("B2", 150, 30, 4, 4, 3, 3, 5, 2);
+    pasaule[8] = new Boss("B3", 150, 30, 4, 4, 3, 3, 5, 3);
+
+    // 1. Izvadīt datus pirms gājieniem
+    for(int i = 0; i < 9; i++) pasaule[i]->Print();
+
+    // 2. Cikls ar 5 iterācijām (Gājieni un nejauši bojājumi)
+    char virzieni[] = {'w', 's', 'a', 'd'};
+    cout << "\n--- NOTIEK 5 GĀJIENI ---" << endl;
+    for(int j = 0; j < 5; j++) {
+        for(int i = 0; i < 9; i++) {
+            pasaule[i]->Go(virzieni[rand() % 4]); // Nejaušs virziens
+            pasaule[i]->Hit(rand() % 6 + 5);      // Nejaušs bojājums no 5 līdz 10
+        }
     }
 
-    // 6. Atbrīvojam atmiņu
-    for(int i = 0; i < 9; i++) {
-        delete pasaule[i];
-    }
+    // 3. Izvadīt datus pēc gājieniem
+    cout << "\n--- STĀVOKLIS PĒC GĀJIENIEM ---" << endl;
+    for(int i = 0; i < 9; i++) pasaule[i]->Print();
+
+    // Atbrīvojam atmiņu
+    for(int i = 0; i < 9; i++) delete pasaule[i];
 
     return 0;
 }
