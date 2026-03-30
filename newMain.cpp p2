@@ -1,0 +1,388 @@
+#include <iostream>
+#include <string>
+#include <ctime>   // Laika funkcijai
+#include <cstdlib> // rand() funkcijai
+
+using namespace std;
+
+// Klase - Sword
+class Sword
+{
+public:
+    Sword(int weight, int quality);
+    int Damage();
+    void WearAndTear();
+    void Sharpen();
+    int GetWeight();
+    int GetQuality();
+
+private:
+    int weight; //(2-5)
+    int quality; //(1-6)
+};
+
+Sword::Sword(int weight, int quality)
+{
+    if (weight < 2)
+         weight = 2;
+    else if (weight > 5)
+        weight = 5;
+    
+   this->weight = weight;
+
+   if (quality < 1)
+        quality = 1;
+    else if (quality > 6)
+        quality = 6;
+    this->quality = quality;
+}
+
+int Sword::Damage()
+{
+    int damage = weight * quality;
+    WearAndTear();
+    return damage;
+}
+
+void Sword::WearAndTear()
+{
+    if (quality > 1)
+    {
+        quality--;
+    }
+}
+
+void Sword::Sharpen()
+{
+    quality = quality + 2;
+     if (quality > 6) 
+    {
+         quality = 6;
+    }
+}
+
+int Sword::GetWeight()
+{
+    return weight;
+}
+
+int Sword::GetQuality()
+{
+    return quality;
+}
+
+// Klase - Shield
+class Shield
+{
+public:
+    Shield(int size, int protection);
+    int Block();
+    void Destruction();
+    void Repair();
+    int GetSize();
+    int GetProtection();
+
+private:
+    int size; // 0-4
+    int protection; // 1-4
+};
+
+Shield::Shield(int size, int protection) //size un protection parametri
+{
+    if (size < 0)
+        size = 0;
+    else if (size > 4)
+        size = 4;
+
+    this->size = size;
+
+    if (protection < 1)
+        protection = 1;
+    else if (protection > 4)
+        protection = 4;
+
+    this->protection = protection;
+}
+int Shield::Block()
+{
+        int block = size * protection;
+    Destruction();
+    return block;
+}
+
+void Shield::Destruction()
+{
+        if (size > 0)
+    {
+        size --;
+    }
+}
+
+void Shield::Repair()
+{
+if (size < 4)
+    {
+        size = size + 2;
+    }
+}
+
+int Shield::GetSize()
+{
+return size;
+}
+int Shield::GetProtection()
+{
+return protection;
+}
+
+//Klase - Character
+class Character
+{
+public:
+    Character(string n, int l, int str, int sw_w, int sw_q, int sh_s, int sh_p);
+    bool Hit (int damage);
+    int Attack();
+    int Defence();
+    int GetLife();
+    void Go(char direction);
+    virtual void Print();
+    virtual ~Character();
+
+protected:
+    string name;
+    int life;
+    int strength;
+    char path[11]; //10 soli + 1 vieta beigu ziimei
+    int stepCount; // solus skaits lai zinatu kuraa vieta masiivaa rakstiit
+    Sword sw; // zobena objeks
+    Shield sh; // vairoga objekts
+};
+
+class Monster : public Character
+{
+private:
+    int level;
+public:
+    Monster(string n, int l, int str, int sw_w, int sw_q, int sh_s, int sh_p, int lvl)
+     : Character(n, l, str, sw_w, sw_q, sh_s, sh_p)
+     {
+        level = lvl;
+     }
+    int GetLevel() { return level; }
+
+    void Print() override 
+    {
+        cout << "Monstrs: " << name << "[Lvl " << level << "]" << endl;
+        if (life > 0) cout << "HP:" << life << endl;
+        else cout << "Statuss: Beigts" << endl;
+        cout << "-----------------------" << endl;
+    }
+};
+
+class Hero : public Character
+{
+private:
+    int experience;
+
+public:
+    // konstruktora deklaracija
+    Hero(string n, int l, int str, int sw_w, int sw_q, int sh_s, int sh_p, int exp);
+    void Kill(Monster &m);
+    void Print() override; // jaunais Print
+};
+
+class Boss : public Monster
+{
+private:
+    int heads;
+
+public:
+    Boss(string n, int l, int str, int sw_w, int sw_q, int sh_s, int sh_p, int lvl, int h)
+    : Monster(n, l, str, sw_w, sw_q, sh_s, sh_p, lvl)
+    {
+        heads = h;
+    }
+
+    void Eat(Hero &h);
+    void Print() override;
+};
+
+Character::Character(string n, int l, int str, int sw_w, int sw_q, int sh_s, int sh_p)
+    : sw(sw_w, sw_q), sh(sh_s, sh_p)
+{
+    name = n;
+    life = (l < 0) ? 0 : l; // Dziviba nevar but negativa
+    strength = str;
+    stepCount = 0; // Sakuma veikti 0 solji
+
+    for (int i = 0; i < 10; i++)
+    {
+        path[i] = '-';
+    }
+    path[10] = '\0'; // Masiva beigu pazime
+}
+
+bool Character::Hit(int damage)
+{
+    life = life - damage;
+    if (life < 0)
+    {
+        life = 0;
+    }
+    if (life > 0)
+        return true;
+    else
+        return false;
+}
+
+int Character::Attack()
+{
+    if (life > 0)
+        return strength + sw.Damage();
+    else
+        return 0;
+}
+
+int Character::Defence()
+{
+    if (life > 0)
+        return (strength / 2) + sh.Block();
+    else
+        return 0;
+}
+
+int Character::GetLife()
+{
+    return life;
+}
+
+void Character::Go(char direction)
+{
+    if (life > 0 && stepCount < 10)
+    {
+        path[stepCount] = direction;
+        stepCount++;
+    }
+}
+
+void Character::Print()
+{
+    cout << "Varonis :" << name << endl;
+    if (life > 0)
+    {
+        cout << "Statuss: Dzivs (" << life << "HP)" << endl;
+    }
+    else
+    {
+        cout << "Statuss: Miris" << endl;
+    }
+cout << "Marsruts: " << path << endl;
+cout << "Zobena kvalitate: " << sw.GetQuality() << endl;
+cout << "Vairoga izmers: " << sh.GetSize() << endl;
+cout << "-----------------------" << endl;
+}
+
+Character::~Character()
+{
+cout << "Game over for " << name << endl;
+}
+
+
+// Funkcija - Fight:
+bool Fight(Character &ch1, Character &ch2)
+{
+    if (ch1.GetLife() > 0 && ch2.GetLife() > 0)
+    {
+        int damage = ch1.Attack() - ch2.Defence();
+
+        if (damage < 0)
+        damage = 0;
+
+        ch2.Hit(damage);
+        return true; // Kauja notika
+    }
+    return false; // Kads jau bija miris
+}
+
+// Hero metodes
+Hero::Hero(string n, int l, int str, int sw_w, int sw_q, int sh_s, int sh_p, int exp)
+    : Character(n, l, str, sw_w, sw_q, sh_s, sh_p)
+    {
+    experience = exp;
+    }
+
+void Hero::Kill(Monster &m)
+{   //Aprekina pieredzi un nonaave monstru
+    experience += m.GetLife() * m.GetLevel();
+    m.Hit(m.GetLife()); 
+}
+
+void Hero::Print()
+{
+    Character::Print(); // Izsauc baazes klases Print
+    cout << "Pieredze: " << experience << endl;
+    cout << "-----------------------" << endl;
+}
+
+// Boss metodes
+void Boss::Eat(Hero &h)
+{
+    life += h.GetLife(); // Atjauno savu HP
+    heads++;             // Izaug jauna galva
+    h.Hit(h.GetLife()); // Varonis mirst
+}
+
+void Boss::Print()
+{
+    Monster::Print();
+    cout << "Galvu skaits: " << heads << endl;
+    cout << "-----------------------" << endl;
+}
+
+int main() {
+    srand(time(0)); // Inicializē nejaušos skaitļus
+
+    // 1. Izveidojam masīvu ar 9 norādēm uz Character (Polimorfisms)
+    Character* pasaule[9];
+
+    // 2. Piepildām masīvu ar dažādiem objektiem
+    pasaule[0] = new Hero("Arturs", 100, 20, 4, 5, 3, 4, 0);
+    pasaule[1] = new Monster("Meza Vilks", 40, 10, 2, 2, 1, 1, 3);
+    pasaule[2] = new Boss("Trisgalvju Pukis", 250, 40, 5, 5, 4, 4, 10, 3);
+    pasaule[3] = new Hero("Galahads", 90, 18, 3, 4, 4, 4, 50);
+    pasaule[4] = new Monster("Skelets", 30, 5, 2, 1, 0, 1, 1);
+    pasaule[5] = new Monster("Orks", 60, 15, 3, 3, 2, 2, 5);
+    pasaule[6] = new Boss("Ciltstevs", 150, 30, 4, 4, 3, 3, 8, 2);
+    pasaule[7] = new Monster("Spoks", 20, 20, 1, 6, 0, 0, 4);
+    pasaule[8] = new Hero("Lanselots", 110, 25, 5, 5, 2, 3, 100);
+
+    // 3. Visiem liek iet 1 nejaušu soli
+    char virzieni[] = {'w', 's', 'a', 'd'};
+    for(int i = 0; i < 9; i++) {
+        pasaule[i]->Go(virzieni[rand() % 4]);
+    }
+
+    // 4. Izsaucam Print() visiem tēliem
+    cout << "--- PASAULES IEDZIVOTAJI ---" << endl;
+    for(int i = 0; i < 9; i++) {
+        pasaule[i]->Print(); // Šeit nostrādā polimorfisms!
+    }
+
+    // 5. Demonstrējam specifiskās metodes (vajag "cast", lai piekļūtu Hero/Monster metodēm no Character*)
+    cout << "--- NOTIKUMS ---" << endl;
+    Hero* h = dynamic_cast<Hero*>(pasaule[0]);
+    Monster* m = dynamic_cast<Monster*>(pasaule[1]);
+    
+    if(h && m) {
+        cout << h->GetLife() << " HP Varonis nogalina monstru!" << endl;
+        h->Kill(*m);
+        pasaule[1]->Print(); // Rādīs, ka monstrs ir miris
+    }
+
+    // 6. Atbrīvojam atmiņu
+    for(int i = 0; i < 9; i++) {
+        delete pasaule[i];
+    }
+
+    return 0;
+}
