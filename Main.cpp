@@ -365,15 +365,15 @@ int main() {
     Character* pasaule[9];
     
     // Izveidojam pa 3 no katra veida
-    pasaule[0] = new Hero("H1", 100, 20, 4, 5, 3, 4, 0);
-    pasaule[1] = new Hero("H2", 100, 20, 4, 5, 3, 4, 0);
-    pasaule[2] = new Hero("H3", 100, 20, 4, 5, 3, 4, 0);
-    pasaule[3] = new Monster("M1", 50, 10, 2, 2, 1, 1, 1);
-    pasaule[4] = new Monster("M2", 50, 10, 2, 2, 1, 1, 2);
-    pasaule[5] = new Monster("M3", 50, 10, 2, 2, 1, 1, 3);
-    pasaule[6] = new Boss("B1", 150, 30, 4, 4, 3, 3, 5, 1);
-    pasaule[7] = new Boss("B2", 150, 30, 4, 4, 3, 3, 5, 2);
-    pasaule[8] = new Boss("B3", 150, 30, 4, 4, 3, 3, 5, 3);
+    pasaule[0] = new Hero("Arthur", 100, 20, 4, 5, 3, 4, 0);
+    pasaule[1] = new Hero("Morgan", 100, 20, 4, 5, 3, 4, 0);
+    pasaule[2] = new Hero("Lenny", 100, 20, 4, 5, 3, 4, 0);
+    pasaule[3] = new Monster("Dutch", 50, 10, 2, 2, 1, 1, 1);
+    pasaule[4] = new Monster("Micah", 50, 10, 2, 2, 1, 1, 2);
+    pasaule[5] = new Monster("Revenant", 50, 10, 2, 2, 1, 1, 3);
+    pasaule[6] = new Boss("Shreder", 150, 30, 4, 4, 3, 3, 5, 1);
+    pasaule[7] = new Boss("Vegan", 150, 30, 4, 4, 3, 3, 5, 2);
+    pasaule[8] = new Boss("Rainbow", 150, 30, 4, 4, 3, 3, 5, 3);
 
     // 1. Izvadīt datus pirms gājieniem
     for(int i = 0; i < 9; i++) pasaule[i]->Print();
