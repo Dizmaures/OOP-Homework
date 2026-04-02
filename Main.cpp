@@ -342,8 +342,8 @@ void Boss::Print()
 int main() {
     srand(time(0));
 
-    // I. DAĻA: Atsevišķu objektu pārbaude
-    cout << "--- I DAĻA: TESTĒŠANA ---" << endl;
+    // 1. DALA: Atsevisku objektu parbaude
+    cout << "--- 1. DAĻA: TESTĒŠANA ---" << endl;
     Hero h1("Arturs", 100, 20, 4, 5, 3, 4, 0);
     Monster m1("Meža Vilks", 40, 10, 2, 2, 1, 1, 3);
     Boss b1("Pūķis", 250, 40, 5, 5, 4, 4, 10, 3);
@@ -354,13 +354,13 @@ int main() {
 
     cout << "Notiek cīņa..." << endl;
     h1.Kill(m1); // Varonis nogalina monstru
-    b1.Eat(h1);  // Boss apēd varoni
+    b1.Eat(h1);  // Boss aped varoni
 
     h1.Print();
     m1.Print();
     b1.Print();
 
-    // II. DAĻA: Masīvs ar 9 objektiem
+    // 2. DALA: Masivs ar 9 objektiem
     cout << "\n--- II DAĻA: MASĪVS UN CIKLI ---" << endl;
     Character* pasaule[9];
     
@@ -375,10 +375,10 @@ int main() {
     pasaule[7] = new Boss("Vegan", 150, 30, 4, 4, 3, 3, 5, 2);
     pasaule[8] = new Boss("Rainbow", 150, 30, 4, 4, 3, 3, 5, 3);
 
-    // 1. Izvadīt datus pirms gājieniem
+    // 1. Izvadit datus pirms gajieniem
     for(int i = 0; i < 9; i++) pasaule[i]->Print();
 
-    // 2. Cikls ar 5 iterācijām (Gājieni un nejauši bojājumi)
+    // 2. Cikls ar 5 iteracijam (Gajieni un nejausi bojajumi)
     char virzieni[] = {'w', 's', 'a', 'd'};
     cout << "\n--- NOTIEK 5 GĀJIENI ---" << endl;
     for(int j = 0; j < 5; j++) {
@@ -388,11 +388,11 @@ int main() {
         }
     }
 
-    // 3. Izvadīt datus pēc gājieniem
+    // 3. Izvadit datus pec gajieniem
     cout << "\n--- STĀVOKLIS PĒC GĀJIENIEM ---" << endl;
     for(int i = 0; i < 9; i++) pasaule[i]->Print();
 
-    // Atbrīvojam atmiņu
+    // Atbrivojam atminu
     for(int i = 0; i < 9; i++) delete pasaule[i];
 
     return 0;
