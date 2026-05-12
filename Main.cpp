@@ -148,6 +148,25 @@ public:
     virtual void Print();
     virtual ~Character();
 
+
+//3.MD added 151-167 line ----------------------------------------------------------------------------------------------------------!!!!!!---------------!!!!
+// 1. Noklusētās vērtības konstruktorā (padara to par noklusējuma konstruktoru)
+Character(string n = "Unknown", int l = 100, int str = 10, int sw_w = 3, int sw_q = 3, int sh_s = 2, int sh_p = 2);
+
+// 2. Ievades/Izvades operatori (friend, lai piekļūtu private datiem)
+friend ostream& operator<<(ostream& os, const Character& ch);
+friend istream& operator>>(istream& is, Character& ch);
+
+// 3. Salīdzināšana (pēc life * strength)
+bool operator>(const Character& otrs) const;
+bool operator<(const Character& otrs) const;
+// ... un pārējie (==, !=, >=, <=)
+
+// 4. Inkrements/Dekrements
+Character& operator++();    // ++ch
+Character operator++(int);  // ch++
+//3.                         ----------------------------------------------------------------------------------------------------------!!!!!!---------------!!!!
+
 protected:
     string name;
     int life;
@@ -338,6 +357,25 @@ void Boss::Print()
     cout << "Galvu skaits: " << heads << endl;
     cout << "-----------------------" << endl;
 }
+
+
+//3.MD added  ----------------------------------------------------------------------------------------------------------!!!!!!---------------!!!!
+template <typename Type>
+class Queue {
+private:
+    Type* masiivs;
+    int ietilpiiba;
+    int skaits;
+    int sakums;
+    int beigas;
+public:
+    Queue(int izmers = 20);
+    void enqueue(Type X); // Pievieno beigās
+    Type dequeue();       // Izņem no sākuma
+    void PrintQueue();    // Izvada visu rindu
+};
+//3.MD added  ----------------------------------------------------------------------------------------------------------!!!!!!---------------!!!!
+
 
 int main() {
     srand(time(0));
