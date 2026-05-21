@@ -3,7 +3,6 @@
 #include <ctime>   // Laika funkcijai
 #include <cstdlib> // rand() funkcijai
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 
